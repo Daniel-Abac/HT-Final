@@ -5,6 +5,14 @@
  */
 package ht.pkgfinal;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author USUARIO
@@ -16,6 +24,65 @@ public class CrearProducto extends javax.swing.JFrame {
      */
     public CrearProducto() {
         initComponents();
+    }
+    private int Validad(){
+        if(jTextFieldNombre.getText().length()==0)
+        {
+            JOptionPane.showMessageDialog(null,"Llenar Todos Los campos","ERROR",JOptionPane.ERROR_MESSAGE);
+            return 1;
+        }
+        else if(jTextFieldExistencias.getText().length()==0)
+        {
+            JOptionPane.showMessageDialog(null,"Llenar Todos Los campos","ERROR",JOptionPane.ERROR_MESSAGE);
+            return 1;
+        }
+        else if(jTextFieldPrecio.getText().length()==0)
+        {
+            JOptionPane.showMessageDialog(null,"Llenar Todos Los campos","ERROR",JOptionPane.ERROR_MESSAGE);
+            return 1;
+        }
+        else
+        {
+            return 0;
+        }
+    }
+    
+    private void mostrardatos(String valor){
+        try {
+            Connection cn = Conexion.conectar();
+            DefaultTableModel modelo=new DefaultTableModel()
+            {
+                @Override
+               public boolean isCellEditable(int fila, int col){
+                  return col==5;
+               }
+            };
+            modelo.addColumn("ID Inventario");
+            modelo.addColumn("Nombre");
+            modelo.addColumn("Existencia");
+            modelo.addColumn("Precio Q.");
+            
+            jTable1.setModel(modelo);
+            String sql="";
+            if (valor.equals(""))
+            {
+                sql="SELECT * FROM inventario";
+            }
+            String []datos=new String [5];
+            
+                Statement st=cn.createStatement();
+                ResultSet rs=st.executeQuery(sql);
+                while(rs.next())
+                {
+                    datos[0]=rs.getString(1);
+                    datos[1]=rs.getString(2);
+                    datos[2]=rs.getString(3);
+                    datos[3]=rs.getString(4);                    
+                    modelo.addRow(datos);
+                }  
+        }catch(SQLException ex){
+          JOptionPane.showMessageDialog(null, "Error" +ex);
+        }
     }
 
     /**
@@ -30,6 +97,15 @@ public class CrearProducto extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        jTextFieldNombre = new javax.swing.JTextField();
+        jTextFieldExistencias = new javax.swing.JTextField();
+        jTextFieldPrecio = new javax.swing.JTextField();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        Fondo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -47,14 +123,116 @@ public class CrearProducto extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(jTable1);
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 20, -1, 340));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 20, -1, 230));
 
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagen/47d3a2541523fee1a98776041809b272.jpg"))); // NOI18N
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 750, 420));
+        jLabel1.setText("Nombre :");
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 70, -1));
+
+        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setText("Existencias :");
+        jLabel2.setToolTipText("");
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, -1, -1));
+
+        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel3.setText("Precio :");
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 160, -1, -1));
+
+        jButton1.setText("Agregar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 30, -1, -1));
+
+        jTextFieldNombre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldNombreActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jTextFieldNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 80, 90, -1));
+        getContentPane().add(jTextFieldExistencias, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 120, 90, -1));
+        getContentPane().add(jTextFieldPrecio, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 160, 90, -1));
+
+        jButton2.setText("Insertar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 220, -1, -1));
+
+        jButton3.setText("Cancelar");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 220, -1, -1));
+
+        Fondo.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        Fondo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        Fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagen/47d3a2541523fee1a98776041809b272.jpg"))); // NOI18N
+        getContentPane().add(Fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 750, 300));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jTextFieldNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldNombreActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldNombreActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        jTextFieldNombre.setText("");
+        jTextFieldExistencias.setText("");
+        jTextFieldPrecio.setText("");
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        try {
+            Connection cn = Conexion.conectar();
+            {
+                if(Validad()==0)
+                {
+                    PreparedStatement pst = cn.prepareStatement("INSERT INTO inventario(Nombre,Existencias,Precio_venta)VALUES(?,?,?)");
+                    pst.setString(1,jTextFieldNombre.getText());
+                    pst.setString(2,jTextFieldExistencias.getText());
+                    pst.setDouble(3,Double.parseDouble(jTextFieldPrecio.getText()));
+                    //pst.setBoolean(4,true);
+                    int a = pst.executeUpdate();
+                    if(a>0)
+                    {
+                        JOptionPane.showMessageDialog(null,"Registro Exitoso");
+                        mostrardatos("");
+                        jTextFieldNombre.setText(null);
+                        jTextFieldExistencias.setText(null);
+                        jTextFieldPrecio.setText(null);
+                        jButton3.setVisible(false);
+                    }
+                    else
+                    {
+                        JOptionPane.showMessageDialog(null,"Error al agregar");
+                    }
+                }//Fin del if
+                else
+                {
+                    JOptionPane.showMessageDialog(null,"Llenar Todos Los Campos","ERROR",JOptionPane.ERROR_MESSAGE);
+                }
+            }//Fin Conexion
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex);
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        jTextFieldNombre.setText("");
+        jTextFieldExistencias.setText("");
+        jTextFieldPrecio.setText("");
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -92,8 +270,17 @@ public class CrearProducto extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel Fondo;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
+    private javax.swing.JTextField jTextFieldExistencias;
+    private javax.swing.JTextField jTextFieldNombre;
+    private javax.swing.JTextField jTextFieldPrecio;
     // End of variables declaration//GEN-END:variables
 }
