@@ -1,0 +1,7 @@
+delimiter //
+CREATE PROCEDURE insertacliente( IN id int, IN Nombre VARCHAR(45), IN Nit varchar(45),
+IN Direccion varchar(45), IN Saldo FLOAT)
+BEGIN
+INSERT INTO cliente (id, Nombre, Nit, Direccion, Saldo) VALUES (id, Nombre, Nit, Direccion, Saldo);
+END //
+delimiter ;
