@@ -1,0 +1,26 @@
+INSERT INTO cliente VALUES ("algo", "José", 19,"Quetzgo", 10)
+
+
+
+
+
+delimiter //
+DROP TRIGGER IF EXISTS crearCliente //
+CREATE TRIGGER crearCliente
+BEFORE INSERT ON cliente 
+FOR EACH ROW 
+BEGIN 
+
+    DECLARE contador INT UNSIGNED DEFAULT 0;
+    DECLARE codigo VARCHAR(10);
+    SELECT COUNT(id) INTO contador FROM cliente;
+    IF(contador = 0)THEN
+      	SET contador =1;
+    ELSE
+        SET contador =contador + 1;
+    END IF;
+    SET codigo = CONCAT('CLI-',contador);
+    SET NEW.id = codigo;
+	 SET NEW.Saldo = 0;
+END;//
+delimiter ;
