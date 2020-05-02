@@ -148,12 +148,20 @@ public class CrearCliente extends javax.swing.JFrame {
     private void jButtonInsertarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonInsertarActionPerformed
         try {
             Connection cn = Conexion.conectar();
-            PreparedStatement pst = cn.prepareStatement("INSERT INTO cliente(Nombre,Nit,Direccion, Saldo)VALUES(?,?,?,?)");
+            
+//            PreparedStatement pst = cn.prepareStatement("INSERT INTO cliente(id, Nombre, Nit, Direccion, Saldo)VALUES(?,?,?,?,?)");
+//            pst.setString(1, "1");
+//            pst.setString(2, jTextFieldNombre.getText());
+//            pst.setString(3, jTextFieldNit.getText());
+//            pst.setString(4, jTextFieldDireccion.getText());
+//            pst.setDouble(5, Double.parseDouble(jTextFieldSaldo.getText()));
+            
+            PreparedStatement pst = cn.prepareStatement("INSERT INTO cliente(Nombre,Nit,Direccion, Saldo)VALUES(?,?,?,?)");           
             pst.setString(1, jTextFieldNombre.getText());
             pst.setString(2, jTextFieldNit.getText());
             pst.setString(3, jTextFieldDireccion.getText());
             pst.setDouble(4, Double.parseDouble(jTextFieldSaldo.getText()));
-
+            
             int a = pst.executeUpdate();
             if (a > 0) {
                 JOptionPane.showMessageDialog(null, "Registro Exitoso");

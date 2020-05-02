@@ -25,63 +25,54 @@ public class CrearProducto extends javax.swing.JFrame {
     public CrearProducto() {
         initComponents();
     }
-    private int Validad(){
-        if(jTextFieldNombre.getText().length()==0)
-        {
-            JOptionPane.showMessageDialog(null,"Llenar Todos Los campos","ERROR",JOptionPane.ERROR_MESSAGE);
+
+    private int Validad() {
+        if (jTextFieldNombre.getText().length() == 0) {
+            JOptionPane.showMessageDialog(null, "Llenar Todos Los campos", "ERROR", JOptionPane.ERROR_MESSAGE);
             return 1;
-        }
-        else if(jTextFieldExistencias.getText().length()==0)
-        {
-            JOptionPane.showMessageDialog(null,"Llenar Todos Los campos","ERROR",JOptionPane.ERROR_MESSAGE);
+        } else if (jTextFieldExistencias.getText().length() == 0) {
+            JOptionPane.showMessageDialog(null, "Llenar Todos Los campos", "ERROR", JOptionPane.ERROR_MESSAGE);
             return 1;
-        }
-        else if(jTextFieldPrecio.getText().length()==0)
-        {
-            JOptionPane.showMessageDialog(null,"Llenar Todos Los campos","ERROR",JOptionPane.ERROR_MESSAGE);
+        } else if (jTextFieldPrecio.getText().length() == 0) {
+            JOptionPane.showMessageDialog(null, "Llenar Todos Los campos", "ERROR", JOptionPane.ERROR_MESSAGE);
             return 1;
-        }
-        else
-        {
+        } else {
             return 0;
         }
     }
-    
-    private void mostrardatos(String valor){
+
+    private void mostrardatos(String valor) {
         try {
             Connection cn = Conexion.conectar();
-            DefaultTableModel modelo=new DefaultTableModel()
-            {
+            DefaultTableModel modelo = new DefaultTableModel() {
                 @Override
-               public boolean isCellEditable(int fila, int col){
-                  return col==5;
-               }
+                public boolean isCellEditable(int fila, int col) {
+                    return col == 5;
+                }
             };
             modelo.addColumn("ID Inventario");
             modelo.addColumn("Nombre");
             modelo.addColumn("Existencia");
             modelo.addColumn("Precio Q.");
-            
+
             jTable1.setModel(modelo);
-            String sql="";
-            if (valor.equals(""))
-            {
-                sql="SELECT * FROM inventario";
+            String sql = "";
+            if (valor.equals("")) {
+                sql = "SELECT * FROM producto";
             }
-            String []datos=new String [5];
-            
-                Statement st=cn.createStatement();
-                ResultSet rs=st.executeQuery(sql);
-                while(rs.next())
-                {
-                    datos[0]=rs.getString(1);
-                    datos[1]=rs.getString(2);
-                    datos[2]=rs.getString(3);
-                    datos[3]=rs.getString(4);                    
-                    modelo.addRow(datos);
-                }  
-        }catch(SQLException ex){
-          JOptionPane.showMessageDialog(null, "Error" +ex);
+            String[] datos = new String[5];
+
+            Statement st = cn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while (rs.next()) {
+                datos[0] = rs.getString(1);
+                datos[1] = rs.getString(2);
+                datos[2] = rs.getString(3);
+                datos[3] = rs.getString(4);
+                modelo.addRow(datos);
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error" + ex);
         }
     }
 
@@ -196,31 +187,32 @@ public class CrearProducto extends javax.swing.JFrame {
         try {
             Connection cn = Conexion.conectar();
             {
-                if(Validad()==0)
-                {
-                    PreparedStatement pst = cn.prepareStatement("INSERT INTO inventario(Nombre,Existencias,Precio_venta)VALUES(?,?,?)");
-                    pst.setString(1,jTextFieldNombre.getText());
-                    pst.setString(2,jTextFieldExistencias.getText());
-                    pst.setDouble(3,Double.parseDouble(jTextFieldPrecio.getText()));
-                    //pst.setBoolean(4,true);
+                if (Validad() == 0) {
+//                    PreparedStatement pst = cn.prepareStatement("INSERT INTO producto(id, Nombre,Existencias,Precio)VALUES(?,?,?,?)");
+//                    pst.setString(1,"1");
+//                    pst.setString(2,jTextFieldNombre.getText());
+//                    pst.setString(3,jTextFieldExistencias.getText());
+//                    pst.setDouble(4,Double.parseDouble(jTextFieldPrecio.getText()));
+
+                    PreparedStatement pst = cn.prepareStatement("INSERT INTO producto(Nombre,Existencias,Precio)VALUES(?,?,?)");                  
+                    pst.setString(1, jTextFieldNombre.getText());
+                    pst.setString(2, jTextFieldExistencias.getText());
+                    pst.setDouble(3, Double.parseDouble(jTextFieldPrecio.getText()));
+
                     int a = pst.executeUpdate();
-                    if(a>0)
-                    {
-                        JOptionPane.showMessageDialog(null,"Registro Exitoso");
+                    if (a > 0) {
+                        JOptionPane.showMessageDialog(null, "Registro Exitoso");
                         mostrardatos("");
                         jTextFieldNombre.setText(null);
                         jTextFieldExistencias.setText(null);
                         jTextFieldPrecio.setText(null);
                         jButton3.setVisible(false);
-                    }
-                    else
-                    {
-                        JOptionPane.showMessageDialog(null,"Error al agregar");
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Error al agregar");
                     }
                 }//Fin del if
-                else
-                {
-                    JOptionPane.showMessageDialog(null,"Llenar Todos Los Campos","ERROR",JOptionPane.ERROR_MESSAGE);
+                else {
+                    JOptionPane.showMessageDialog(null, "Llenar Todos Los Campos", "ERROR", JOptionPane.ERROR_MESSAGE);
                 }
             }//Fin Conexion
         } catch (SQLException ex) {
