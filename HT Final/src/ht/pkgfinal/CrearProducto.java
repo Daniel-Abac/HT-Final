@@ -24,6 +24,7 @@ public class CrearProducto extends javax.swing.JFrame {
      */
     public CrearProducto() {
         initComponents();
+        this.setLocationRelativeTo(null);
     }
 
     private int Validad() {
@@ -96,9 +97,11 @@ public class CrearProducto extends javax.swing.JFrame {
         jTextFieldPrecio = new javax.swing.JTextField();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
         Fondo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setUndecorated(true);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -165,6 +168,14 @@ public class CrearProducto extends javax.swing.JFrame {
         });
         getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 220, -1, -1));
 
+        jButton4.setText("Salir");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 260, -1, -1));
+
         Fondo.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         Fondo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         Fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagen/47d3a2541523fee1a98776041809b272.jpg"))); // NOI18N
@@ -226,6 +237,12 @@ public class CrearProducto extends javax.swing.JFrame {
         jTextFieldPrecio.setText("");
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        Menu m = new Menu();
+        this.setVisible(false);
+        m.setVisible(true);
+    }//GEN-LAST:event_jButton4ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -266,6 +283,7 @@ public class CrearProducto extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
